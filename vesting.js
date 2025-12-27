@@ -156,44 +156,40 @@ async function buyVesting() {
   const signerPkh =
     lucid.utils.getAddressDetails(walletAddress).paymentCredential.hash;
 
+  // Get all UTxOs at the script
   const scriptUtxos = await lucid.utxosAt(validatorAddress);
   if (scriptUtxos.length === 0) {
     alert("No vesting UTxO found");
     return;
   }
 
+  // Find the first expired vesting UTxO
   const utxo = scriptUtxos.find(u => {
     const d = Data.from(u.datum);
-    return Date.now() >= Number(d.fields[1]);
+    return Date.now() >= Number(d.fields[1]); // deadline passed
   });
 
   if (!utxo) {
     alert("No expired vesting UTxO found");
     return;
   }
-  console.log("Found UTxO:", utxo);
-  
+
   const datum = Data.from(utxo.datum);
   const [beneficiary, deadline, code] = datum.fields;
 
-  // Must match validator window
-  const from = Number(deadline);
-  const to   = from + 60_000; // 1 minute
-
+  // Build the transaction
   const tx = await lucid
     .newTx()
-    .collectFrom([utxo], Data.to(Redeemer.Buy))
+    .collectFrom([utxo], Data.to(Redeemer.Buy)) // Use Buy redeemer
     .addSignerKey(signerPkh)
-    .attachSpendingValidator(validator)
-    .payToAddress(walletAddress, utxo.assets)
-    .validFrom(from)
-    .validTo(to)
+    .payToAddress(walletAddress, utxo.assets) // Send funds directly to buyer
     .complete();
 
   const signed = await tx.sign().complete();
   const txHash = await signed.submit();
 
   console.log("Buy successful:", txHash);
+  alert("Buy successful! TX: " + txHash);
 }
 
 
