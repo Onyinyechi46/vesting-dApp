@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vesting dApp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      margin: 0;
+      min-height: 100vh;
+
+      /* CENTER EVERYTHING */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      width: 100%;
+      padding: 2rem;
+    }
+
+    h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    .card {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .row {
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    code {
+      color: #38bdf8;
+      word-break: break-all;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      background: #2563eb;
+      color: white;
+      margin-top: 0.5rem;
+    }
+
+    button.secondary { background: #475569; }
+    button.danger { background: #dc2626; }
+
+    footer {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: #64748b;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>⏳ Vesting dApp</h1>
+
+    <!-- WALLET CARD -->
+    <div class="card">
+      <h3>🔌 Wallet</h3>
+
+      <div class="row">
+        <strong>Status:</strong>
+        <span id="statusText">Disconnected</span>
+      </div>
+
+      <div class="row">
+        <strong>Wallet:</strong>
+        <code id="walletAddress">—</code>
+      </div>
+
+      <div class="row">
+        <strong>Script:</strong>
+        <code id="scriptAddress">—</code>
+      </div>
+
+      <button id="connectWallet">Connect Wallet</button>
+    </div>
+
+    <!-- LOCK -->
+    <div class="card">
+  <h3>🔒 Lock Vesting</h3>
+
+  <input
+    id="lockDeadline"
+    type="datetime-local"
+    style="width:100%; margin-bottom:0.5rem;"
+  />
+
+  <input
+    id="lockCode"
+    type="number"
+    placeholder="Code"
+    style="width:100%; margin-bottom:0.5rem;"
+  />
+
+ <input
+    id="lockAmount"
+    type="number"
+    placeholder="Ada Amount"
+    style="width:100%; margin-bottom:0.5rem;"
+  />
+
+  <button id="lockBtn">Lock</button>
+</div>
+
+
+    <!-- BUY -->
+    <div class="card">
+      <h3>🛒 Buy</h3>
+      <button id="buyBtn">Buy</button>
+    </div>
+
+    <!-- UPDATE -->
+    <div class="card">
+      <h3>✏️ Update</h3>
+      <button id="updateBtn" class="secondary">Update</button>
+    </div>
+
+    <!-- CANCEL -->
+    <div class="card">
+      <h3>❌ Cancel</h3>
+      <button id="cancelBtn" class="danger">Cancel</button>
+    </div>
+
+    <footer>
+      Cardano Preprod · Lucid · Plutus V2
+    </footer>
+
+  </div>
+
+  <script type="module" src="vesting.js"></script>
+</body>
+</html>
